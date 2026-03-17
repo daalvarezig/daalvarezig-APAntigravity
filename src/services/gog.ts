@@ -5,7 +5,11 @@ export const executeGogCommand = (args: string[]): Promise<string> => {
   return new Promise((resolve) => {
     logger.info(`Executing gog tool with args: ${args.join(' ')}`);
     execFile('gog', args, {
-      env: { ...process.env, XDG_CONFIG_HOME: process.env.XDG_CONFIG_HOME || '/usr/src/app/data/config' },
+      env: { 
+        ...process.env, 
+        XDG_CONFIG_HOME: process.env.XDG_CONFIG_HOME || '/usr/src/app/data/config',
+        GOG_KEYRING_PASSWORD: process.env.GOG_KEYRING_PASSWORD || 'tgbot'
+      },
       timeout: 30000 // 30 seconds max
     }, (error, stdout, stderr) => {
       if (error) {
