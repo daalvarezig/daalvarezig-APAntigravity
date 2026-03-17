@@ -6,8 +6,10 @@ ENV XDG_CONFIG_HOME=/usr/src/app/data/config
 
 # Download and install gogcli
 RUN apk add --no-cache curl tar && \
-    curl -sL https://github.com/steipete/gogcli/releases/download/v0.12.0/gogcli_0.12.0_linux_amd64.tar.gz | tar xz -C /usr/local/bin gogcli && \
-    mv /usr/local/bin/gogcli /usr/local/bin/gog
+    mkdir -p /tmp/gogcli && \
+    curl -sL https://github.com/steipete/gogcli/releases/download/v0.12.0/gogcli_0.12.0_linux_amd64.tar.gz | tar xz -C /tmp/gogcli && \
+    mv /tmp/gogcli/gog /usr/local/bin/gog && \
+    rm -rf /tmp/gogcli
 
 # Create app directory
 WORKDIR /usr/src/app
