@@ -16,7 +16,8 @@ const getGoogleAuth = () => {
         'https://www.googleapis.com/auth/calendar',
         'https://www.googleapis.com/auth/documents',
         'https://www.googleapis.com/auth/spreadsheets',
-        'https://www.googleapis.com/auth/drive'
+        'https://www.googleapis.com/auth/drive',
+        'https://www.googleapis.com/auth/gmail.readonly'
       ],
     });
     return auth;
@@ -30,3 +31,4 @@ export const googleAuthClient = getGoogleAuth();
 export const calendarClient = googleAuthClient ? google.calendar({ version: 'v3', auth: googleAuthClient }) : null;
 export const docsClient = googleAuthClient ? google.docs({ version: 'v1', auth: googleAuthClient }) : null;
 export const sheetsClient = googleAuthClient ? google.sheets({ version: 'v4', auth: googleAuthClient }) : null;
+export const gmailClient = googleAuthClient ? google.gmail({ version: 'v1', auth: googleAuthClient }) : null;

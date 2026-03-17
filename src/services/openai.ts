@@ -24,7 +24,8 @@ import {
   googleCalendarListEvents, 
   googleCalendarCreateEvent, 
   googleDocsGetDocument, 
-  googleSheetsGetSpreadsheet 
+  googleSheetsGetSpreadsheet,
+  googleGmailListMessages
 } from './googleTools';
 
 const GOOGLE_TOOLS: any[] = [
@@ -87,6 +88,20 @@ const GOOGLE_TOOLS: any[] = [
         required: ["spreadsheetId", "range"]
       }
     }
+  },
+  {
+    type: "function",
+    function: {
+      name: "google_gmail_list_messages",
+      description: "Search or list recent emails from Gmail.",
+      parameters: {
+        type: "object",
+        properties: {
+          query: { type: "string", description: "Gmail search query (e.g. 'from:boss', 'is:unread')." },
+          maxResults: { type: "number", description: "Max results to return. Default 5." }
+        }
+      }
+    }
   }
 ];
 
@@ -97,6 +112,7 @@ export const generateChatResponse = async (
   try {
     const apiMessages: any[] = [{ role: 'system', content: systemPrompt }, ...messages];
     
+    logger.info(`Sending request to OpenAI with ${GOOGLE_TOOLS.length} tools...`);
     const response = await openai.chat.completions.create({
       model: env.OPENAI_CHAT_MODEL,
       messages: apiMessages,
@@ -119,6 +135,7 @@ export const generateChatResponse = async (
           logger.error('Failed to parse tool arguments', e);
         }
 
+        logger.info(`AI requested tool call: ${name} with args: ${JSON.stringify(args)}`);
         let resultText = '';
 
         if (name === 'google_calendar_list_events') {
@@ -129,7 +146,11 @@ export const generateChatResponse = async (
           resultText = await googleDocsGetDocument(args.documentId);
         } else if (name === 'google_sheets_get_spreadsheet') {
           resultText = await googleSheetsGetSpreadsheet(args.spreadsheetId, args.range);
+        } else if (name === 'google_gmail_list_messages') {
+          resultText = await googleGmailListMessages(args.query, args.maxResults);
         }
+
+        logger.info(`Tool ${name} result: ${resultText.substring(0, 100)}...`);
 
         apiMessages.push({
           role: "tool",
@@ -138,6 +159,7 @@ export const generateChatResponse = async (
         });
       }
 
+      logger.info('Re-sending conversation to OpenAI with tool results...');
       const finalResponse = await openai.chat.completions.create({
         model: env.OPENAI_CHAT_MODEL,
         messages: apiMessages,
