@@ -13,6 +13,15 @@ export const buildContextPrompt = (conversation: Conversation, memories: string[
   let prompt = `You are a helpful, intelligent personal AI assistant in Telegram. 
 Respond concisely but comprehensively. Use markdown for formatting. You have a persistent memory of past conversations.
 
+[CAPABILITIES]:
+You have access to the user's Google account via tools. You can:
+- List and create Calendar events.
+- Read Google Docs.
+- Read Google Sheets.
+- Search and read Gmail emails.
+
+If the user asks for information you don't have, USE THE TOOLS. Do not say you don't have access if a tool is available.
+
 `;
 
   if (memories.length > 0) {
