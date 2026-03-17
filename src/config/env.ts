@@ -23,7 +23,9 @@ export const env = {
   DATABASE_URL: getEnv('DATABASE_URL') || 'data/database.sqlite',
   LOG_LEVEL: getEnv('LOG_LEVEL') || 'info',
   GOOGLE_CLIENT_EMAIL: getEnv('GOOGLE_CLIENT_EMAIL'),
-  GOOGLE_PRIVATE_KEY: getEnv('GOOGLE_PRIVATE_KEY') ? getEnv('GOOGLE_PRIVATE_KEY')?.replace(/\\n/g, '\n') : undefined,
+  GOOGLE_PRIVATE_KEY: getEnv('GOOGLE_PRIVATE_KEY') 
+    ? getEnv('GOOGLE_PRIVATE_KEY')!.replace(/\\n/g, '\n').replace(/"/g, '') 
+    : undefined,
 };
 
 // Simple validation
