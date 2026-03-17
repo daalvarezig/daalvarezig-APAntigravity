@@ -1,0 +1,32 @@
+{
+  "name": "ap_telegram",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@google/auth-library": "^9.7.0",
+    "axios": "^1.13.6",
+    "better-sqlite3": "^12.8.0",
+    "dotenv": "^17.3.1",
+    "googleapis": "^134.0.0",
+    "openai": "^6.29.0",
+    "telegraf": "^4.16.3"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^25.5.0",
+    "eslint": "^10.0.3",
+    "prettier": "^3.8.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
