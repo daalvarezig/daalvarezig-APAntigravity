@@ -1,4 +1,4 @@
-import { calendarClient, docsClient, sheetsClient, gmailClient } from './googleAuth';
+import { calendarClient, docsClient, sheetsClient, gmailClient, driveClient } from './googleAuth';
 import { logger } from '../utils/logger';
 
 export const googleCalendarListEvents = async (timeMin?: string, timeMax?: string): Promise<string> => {
@@ -107,6 +107,43 @@ export const googleGmailListMessages = async (query?: string, maxResults: number
     return JSON.stringify(details);
   } catch (error: any) {
     logger.error('Error listing Gmail messages', error);
+    return `Error: ${error.message}`;
+  }
+};
+
+export const googleDriveListFiles = async (folderId?: string): Promise<string> => {
+  logger.info(`googleDriveListFiles called: folderId=${folderId}`);
+  if (!driveClient) return 'Google Drive API is not configured.';
+  try {
+    const q = folderId ? `'${folderId}' in parents and trashed = false` : 'trashed = false';
+    const res = await driveClient.files.list({
+      q,
+      fields: 'files(id, name, mimeType, webViewLink)',
+      pageSize: 20
+    });
+    const files = res.data.files || [];
+    if (files.length === 0) return 'No files found.';
+    return JSON.stringify(files);
+  } catch (error: any) {
+    logger.error('Error listing Drive files', error);
+    return `Error: ${error.message}`;
+  }
+};
+
+export const googleDriveSearchFiles = async (fileName: string): Promise<string> => {
+  logger.info(`googleDriveSearchFiles called: name=${fileName}`);
+  if (!driveClient) return 'Google Drive API is not configured.';
+  try {
+    const res = await driveClient.files.list({
+      q: `name contains '${fileName}' and trashed = false`,
+      fields: 'files(id, name, mimeType, webViewLink)',
+      pageSize: 10
+    });
+    const files = res.data.files || [];
+    if (files.length === 0) return `No files found matching '${fileName}'.`;
+    return JSON.stringify(files);
+  } catch (error: any) {
+    logger.error('Error searching Drive files', error);
     return `Error: ${error.message}`;
   }
 };

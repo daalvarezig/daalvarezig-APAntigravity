@@ -22,6 +22,7 @@ export const env = {
   OPENAI_TRANSCRIPTION_MODEL: getEnv('OPENAI_TRANSCRIPTION_MODEL') || 'whisper-1',
   DATABASE_URL: getEnv('DATABASE_URL') || 'data/database.sqlite',
   LOG_LEVEL: getEnv('LOG_LEVEL') || 'info',
+  GOOGLE_CLIENT_EMAIL: getEnv('GOOGLE_CLIENT_EMAIL'),
   GOOGLE_PRIVATE_KEY: getEnv('GOOGLE_PRIVATE_KEY') 
     ? getEnv('GOOGLE_PRIVATE_KEY')!.replace(/\\n/g, '\n').replace(/['"]/g, '').trim() 
     : undefined,

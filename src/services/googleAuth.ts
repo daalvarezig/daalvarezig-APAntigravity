@@ -32,3 +32,4 @@ export const calendarClient = googleAuthClient ? google.calendar({ version: 'v3'
 export const docsClient = googleAuthClient ? google.docs({ version: 'v1', auth: googleAuthClient }) : null;
 export const sheetsClient = googleAuthClient ? google.sheets({ version: 'v4', auth: googleAuthClient }) : null;
 export const gmailClient = googleAuthClient ? google.gmail({ version: 'v1', auth: googleAuthClient }) : null;
+export const driveClient = googleAuthClient ? google.drive({ version: 'v3', auth: googleAuthClient }) : null;

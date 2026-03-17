@@ -25,7 +25,9 @@ import {
   googleCalendarCreateEvent, 
   googleDocsGetDocument, 
   googleSheetsGetSpreadsheet,
-  googleGmailListMessages
+  googleGmailListMessages,
+  googleDriveListFiles,
+  googleDriveSearchFiles
 } from './googleTools';
 
 const GOOGLE_TOOLS: any[] = [
@@ -102,6 +104,33 @@ const GOOGLE_TOOLS: any[] = [
         }
       }
     }
+  },
+  {
+    type: "function",
+    function: {
+      name: "google_drive_list_files",
+      description: "List files and folders in Google Drive.",
+      parameters: {
+        type: "object",
+        properties: {
+          folderId: { type: "string", description: "Optional folder ID to list contents of." }
+        }
+      }
+    }
+  },
+  {
+    type: "function",
+    function: {
+      name: "google_drive_search_files",
+      description: "Search for files in Google Drive by name.",
+      parameters: {
+        type: "object",
+        properties: {
+          fileName: { type: "string", description: "Part of the file name to search for." }
+        },
+        required: ["fileName"]
+      }
+    }
   }
 ];
 
@@ -121,7 +150,8 @@ export const generateChatResponse = async (
     });
 
     const completionMessage = response.choices[0]?.message;
-
+    logger.info(`OpenAI response role: ${completionMessage?.role}, content: ${completionMessage?.content?.substring(0, 100)}...`);
+    
     if (completionMessage?.tool_calls && completionMessage.tool_calls.length > 0) {
       apiMessages.push(completionMessage);
 
@@ -148,6 +178,10 @@ export const generateChatResponse = async (
           resultText = await googleSheetsGetSpreadsheet(args.spreadsheetId, args.range);
         } else if (name === 'google_gmail_list_messages') {
           resultText = await googleGmailListMessages(args.query, args.maxResults);
+        } else if (name === 'google_drive_list_files') {
+          resultText = await googleDriveListFiles(args.folderId);
+        } else if (name === 'google_drive_search_files') {
+          resultText = await googleDriveSearchFiles(args.fileName);
         }
 
         logger.info(`Tool ${name} result: ${resultText.substring(0, 100)}...`);
