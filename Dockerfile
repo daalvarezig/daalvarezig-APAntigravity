@@ -3,6 +3,7 @@ FROM node:20-alpine
 
 # Set ENV for config to be stored in the persistent volume
 ENV XDG_CONFIG_HOME=/usr/src/app/data/config
+ENV NODE_OPTIONS=--openssl-legacy-provider
 
 # Create app directory
 WORKDIR /usr/src/app

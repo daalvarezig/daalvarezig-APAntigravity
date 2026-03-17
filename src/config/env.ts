@@ -22,11 +22,17 @@ export const env = {
   OPENAI_TRANSCRIPTION_MODEL: getEnv('OPENAI_TRANSCRIPTION_MODEL') || 'whisper-1',
   DATABASE_URL: getEnv('DATABASE_URL') || 'data/database.sqlite',
   LOG_LEVEL: getEnv('LOG_LEVEL') || 'info',
-  GOOGLE_CLIENT_EMAIL: getEnv('GOOGLE_CLIENT_EMAIL'),
   GOOGLE_PRIVATE_KEY: getEnv('GOOGLE_PRIVATE_KEY') 
-    ? getEnv('GOOGLE_PRIVATE_KEY')!.replace(/\\n/g, '\n').replace(/"/g, '') 
+    ? getEnv('GOOGLE_PRIVATE_KEY')!.replace(/\\n/g, '\n').replace(/['"]/g, '').trim() 
     : undefined,
 };
+
+if (env.GOOGLE_PRIVATE_KEY) {
+  const lines = env.GOOGLE_PRIVATE_KEY.split('\n');
+  console.log(`[DEBUG] Google Private Key loaded. Lines: ${lines.length}, Starts with: ${env.GOOGLE_PRIVATE_KEY.substring(0, 30)}...`);
+} else {
+  console.warn("[WARN] GOOGLE_PRIVATE_KEY is not defined in environment.");
+}
 
 // Simple validation
 if (!env.TELEGRAM_BOT_TOKEN) {
