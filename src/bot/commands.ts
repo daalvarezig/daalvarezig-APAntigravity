@@ -34,7 +34,7 @@ export const setupCommands = (bot: Telegraf) => {
   });
 
   bot.command('status', (ctx) => {
-    ctx.reply('Bot is running properly. Database and AI connection active.');
+    ctx.reply('🟢 Bot is running properly. Database and AI connection active (CI/CD Deploy Working!).');
   });
 
   bot.command('memory', (ctx) => {
