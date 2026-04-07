@@ -11,6 +11,7 @@ WORKDIR /usr/src/app
 # Install app dependencies
 COPY package*.json ./
 RUN apk add --no-cache docker-cli git openssh
+RUN git config --global --add safe.directory '*'
 RUN npm install
 
 # Copy app source
