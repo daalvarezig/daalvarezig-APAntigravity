@@ -14,7 +14,7 @@ const ALLOWED_CONTAINERS = [
 const DEPLOY_PROJECTS: Record<string, string> = {
   'VaperIA': 'cd /opt/itopy.ai/apps/VaperIA && git add . && git commit -am "Deploy from Telegram 🚀" && git push origin main',
   'n8n': 'cd /opt/itopy.ai/apps/n8n && docker compose pull && docker compose up -d',
-  'AP_Telegram': 'cd /opt/itopy.ai/apps/agents/ap_antigravity && git fetch --all && git reset --hard origin/main && npm run build && (sleep 2 && kill 1) &',
+  'AP_Telegram': 'cd /opt/itopy.ai/apps/agents/ap_antigravity && git fetch --all && git reset --hard origin/main && docker compose build && docker compose up -d',
 };
 
 export const isOwner = (chatId: number): boolean => chatId === OWNER_CHAT_ID;
