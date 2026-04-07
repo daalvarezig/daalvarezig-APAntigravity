@@ -3,6 +3,7 @@ import { logger } from './utils/logger';
 import { initDb } from './db/schema';
 import { bot } from './bot';
 import { setupHandlers } from './bot/handlers';
+import { setupScheduler } from './services/scheduler';
 
 const start = async () => {
   try {
@@ -11,6 +12,7 @@ const start = async () => {
     
     // 2. Setup message handlers
     setupHandlers(bot);
+    setupScheduler(bot);
 
     // 3. Start Bot
     bot.launch();

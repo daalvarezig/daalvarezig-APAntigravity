@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.env
+data/
+*.sqlite
+*.sqlite-*
+*.tgz
+*.zip
+*.exe
+credentials.json
+client_secret*.json
+bot_ssh/
+token.json
+ap_antigravity.env.txt
+vps_backup.tgz
