@@ -24,7 +24,7 @@ export const env = {
   LOG_LEVEL: getEnv('LOG_LEVEL') || 'info',
   N8N_WEBHOOK_URL: getEnv('N8N_WEBHOOK_URL') || 'https://n8n.itopy.ai/webhook/gmail-search',
   GOOGLE_CLIENT_EMAIL: getEnv('GOOGLE_CLIENT_EMAIL'),
-  N8N_WEBHOOK_URL_5: getEnv('GOOGLE_PRIVATE_KEY') 
+  GOOGLE_PRIVATE_KEY: getEnv('GOOGLE_PRIVATE_KEY') 
     ? getEnv('GOOGLE_PRIVATE_KEY')!.replace(/\\n/g, '\n').replace(/['"]/g, '').trim() 
     : undefined,
 };
